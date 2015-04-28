@@ -1,7 +1,13 @@
 import instaInfo
 
+#get list of Instagram matches
 matches = instaInfo.getMatchesFromFile('usernames.txt')
-print "username: " + matches[2].username
-print instaInfo.countWords(matches[2])
-# instaInfo.printAllUserCounts(matches)
-  
+
+#getting info on a single user
+singleuser = matches[2]
+print "username: " + singleuser.username
+print instaInfo.countWords(singleuser)
+print instaInfo.countTimes(singleuser)
+
+#get info on all the users
+#instaInfo.printAllUserCounts(matches)

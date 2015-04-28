@@ -3,17 +3,17 @@ from instagram.client import InstagramAPI
 api = InstagramAPI(client_id='56511a3cf82d4525befd4e7c669a7ab2', client_secret='50e62e2b2a674b0a920af8bed61ab756')
 
 # return a list of matching Instagram users from a list of Reddit usernames 
-def getMatches(loadedlist):
-  userlist = []
+def getMatches(userlist):
+  instalist = []
   
-  for user in loadedlist:
+  for user in userlist:
     try:
-      userlist.append(api.user_search(user)[0])
+      instalist.append(api.user_search(user)[0])
     except:
       username_error = user + " was not found"
     
-  print "There are " + str(len(userlist)) + " Instagram username matches out of the original " + str(len(loadedlist)) + " Reddit usernames."
-  return userlist
+  print "There are " + str(len(instalist)) + " Instagram username matches out of the original " + str(len(userlist)) + " Reddit usernames.\n"
+  return instalist
 
 
 # get matching users from a txtfile of Reddit usernames

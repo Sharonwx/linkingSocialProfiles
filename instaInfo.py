@@ -54,7 +54,20 @@ def countWords(user):
     return wordDict
   except:
     print "This user is private."
+    
+# return a normalized dictionary of word counts for a specific user
+def countNormWords(user):
+  try:
+    wordDict = countWords(user)
+    size = len(wordDict)
+    
+    for word in wordDict:
+      wordDict[word] = wordDict[word]/float(size)
   
+    return wordDict 
+  except:
+    print "This user has no available posts."
+
 
 # return a dictionary of posting counts (by hour) for a specific user
 def countTimes(user):
@@ -72,15 +85,37 @@ def countTimes(user):
     return timeDict
   except:
     print "This user is private."
+    
+    
+def countNormTimes(user):
+  try:
+    timeDict = countTimes(user)
+    size = len(timeDict)
+    
+    for time in timeDict:
+      timeDict[time] = timeDict[time]/float(size)
+  
+    return timeDict 
+  except:
+    print "This user has no available posts."
+  
 
 #print word counts and posting time counts for a list of Instagram users
 def printAllUserCounts(userlist):
   for user in userlist:
     print "username: " + user.username
-    print "\nWord Counts:"
-    print countWords(user)
-    print "\nPosting Time Counts:"
-    print countTimes(user)
+    
+    # #unnormalized
+    # print "\nWord Counts:"
+    # print countWords(user)
+    # print "\nPosting Time Counts:"
+    # print countTimes(user)
+  
+    #normalized  
+    print "\nNormalized Word Counts:"
+    print countNormWords(user)
+    print "\nNormalized Posting Time Counts:"
+    print countNormTimes(user)
     print "\n\n"
 
 

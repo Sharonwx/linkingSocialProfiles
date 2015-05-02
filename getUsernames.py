@@ -4,26 +4,49 @@ import pprint
 import Redditor
 import datetime
 
-r = praw.Reddit(user_agent='mac:personal_research:v1.0 (by"empteeh20bttl")')
+import time #to time method
+
+r = praw.Reddit(user_agent='mac:personal_research:v1.5 (by"empteeh20bttl")')
 
 #f2 = open('usernames.csv','a')
 redditors = Redditor.Redditors()
 
-list = []
+users = []
+
+#only run this to initialize list of usernames from front page
+#returns 1000 usernames
+def collectUsernames():
+	i = 0
+	f = open('usernames.csv','a')
+	content = r.get_front_page(limit=10)
+	for c in content:
+		f.write(c.author.name)
+		f.write('\n')
+		i = i+1
+	#print i
+
+def getUsernamesFromList(filename):
+	f = open(filename)
+	reader = csv.reader(f)
+	for name in reader:
+		for thing in name:
+		#user = "".join(name)
+			users.append(thing)
 
 
 def getUsernamesFromFrontPage():
 	content = r.get_front_page()
 	for c in content:
 		name = c.author.name
-		list.append(name)
+		users.append(name)
 
 def doEverything():
-
-	for item in list:
+	tic = time.clock()
+	for item in users:
+		#print item
 		user = r.get_redditor(item)
 		timeCreated = datetime.datetime.fromtimestamp(float(user.created_utc))
-	
+
 		submissions = [] 
 		generator = user.get_submitted(time='all')
 		timesOfSubmissions = []
@@ -55,12 +78,13 @@ def doEverything():
 		redditUser = Redditor.Redditor(user,item,timeCreated,submissions,timesOfSubmissions,submittedSubs,submittedSubsKarma,comments,timesOfComments,commentedSubs,commentedSubsKarma)
 		redditors.increaseRedditorCount()
 		redditors.addRedditor(redditUser)
-
-	print "total count is",redditors.getCount()
-	print "final list is",redditors.getList()
+	toc = time.clock()
+	#print toc-tic
+	#print "total count is",redditors.getCount()
+	#print "final list is",redditors.getList()
 
 def getRedditor(username):
-	print redditors.getRedditor(username)
+	#print redditors.getRedditor(username)
 	return redditors.getRedditor(username)
 
 def getLists():

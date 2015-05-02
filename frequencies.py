@@ -15,8 +15,6 @@ frequencies ={}
 def wordFrequencies(comments,submissions):
 
 	for comment in comments:
-		#print 'hi'
-		#print comment
 		words = comment.split()
 		table = string.maketrans("","")
 
@@ -45,13 +43,8 @@ def wordFrequencies(comments,submissions):
 				frequencies[correctWord] = (int(frequencies.get(correctWord,0))+1)
 
 	return frequencies
-	# something weird happening with links ex: xhereshttpswwwyoutubecomwatchvr5z8o7p1ms
 
-#ideas: create a dictionary for times posted
-#hour of the day: times
-#month: times?
-#year: times?
-#so different breakdowns of times and counts
+
 def timeFrequencies(cTimes,sTimes):
 
 	hours = {}
@@ -81,7 +74,8 @@ def getTopics(subsComms,subsSubs):
 	for item in subsSubs:
 		if item not in topics:
 			topics.append(item)
-	print topics
+	return topics
+	#print topics
 
 
 

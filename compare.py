@@ -6,11 +6,11 @@ def getMSE(first,second):
 
 
 
-def compareAllWordFreqs(userList):
-	for user in userList:
-		#need to write code that compares the users list in reddit
-		#to the users list in twitter
-		#to the users list in Insta
+# def compareAllWordFreqs(userList):
+# 	for user in userList:
+# 		#need to write code that compares the users list in reddit
+# 		#to the users list in twitter
+# 		#to the users list in Insta
 
 
 

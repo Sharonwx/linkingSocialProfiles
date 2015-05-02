@@ -4,23 +4,58 @@
 
 from instagram.client import InstagramAPI
 import createHistograms
+import InstagramUser
+import csv
 
 api = InstagramAPI(client_id='56511a3cf82d4525befd4e7c669a7ab2', client_secret='50e62e2b2a674b0a920af8bed61ab756')
 
+instagramUsers = InstagramUser.InstagramUsers()
+
+
+def doEverything():
+	matches = getMatchesFromCSV('usernames.csv')
+	for user in matches:
+	  instagramUser = InstagramUser.InstagramUser(user)
+	  instagramUsers.increaseInstagramUserCount()
+	  instagramUsers.addInstagramUser(instagramUser)
+	for user in instagramUsers.getList():
+	 # user.setWordsNorm(countNormWords(user))
+	 # user.setHoursNorm(countNormTimes(user)[hours])
+	 # user.setMonthsNorm(countNormTimes(user)[months])
+	 # user.setYearsNorm(countNormTimes(user)[years])
+	 setAllNorms(user)
+	return instagramUsers
+
 #returns a matching Instagram user from a username
 def getMatch(user):
-  try:
-    return api.user_search(user)[0]
-  except:
-    username_error = user + " was no found"
+  return api.user_search(user)[0]
+  
+  
+#sets all normalized dictionaries for a user
+def setAllNorms(user):
+  user.setWordsNorm(countNormWords(user))
+  user.setHoursNorm(countNormTimes(user)[hours])
+  user.setMonthsNorm(countNormTimes(user)[months])
+  user.setYearsNorm(countNormTimes(user)[years])
 
+
+#returns a single user from a username
+def getSingleUser(username):
+  user = getMatch(username)
+  instagramUser = InstagramUser.InstagramUser(user)
+  setAllNorms(instagramUser)
+  return instagramUser
+  
 
 # return a list of matching Instagram users from a list of usernames 
 def getMatches(userlist):
   instalist = []
   
   for user in userlist:
+    try:
       instalist.append(getMatch(user))
+    except:
+      username_error = user + " was not found"
     
   print "There are " + str(len(instalist)) + " Instagram username matches out of the original " + str(len(userlist)) + " Reddit usernames.\n"
   return instalist
@@ -127,7 +162,7 @@ def countNormTimes(user):
 
   except:
     print "This user has no available posts."
-  
+    
 
 #print word counts and posting time counts for a list of Instagram users
 def printAllUserCounts(userlist):

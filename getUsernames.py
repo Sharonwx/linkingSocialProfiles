@@ -33,7 +33,6 @@ def getUsernamesFromList(filename):
 		#user = "".join(name)
 			users.append(thing)
 
-
 def getUsernamesFromFrontPage():
 	content = r.get_front_page()
 	for c in content:

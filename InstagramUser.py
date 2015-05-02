@@ -2,8 +2,7 @@ import datetime
 
 class InstagramUser (object):
 
-	def __init__(self, instagramUser,username,timeCreated,submissions,timesOfSubmissions,submittedSubs,submittedSubsKarma,
-	comments, timesOfComments, commentedSubs,commentedSubsKarma):
+	def __init__(self,instagramUser):
 		self.instagramUser = instagramUser
 		self.username = username
 		self.submissions = submissions
@@ -22,11 +21,11 @@ class InstagramUser (object):
 	def getTimeString(self):
 		return datetime.datetime.fromtimestamp(float(self.timeCreated)).strftime("%Y-%m-%d %H:%M")
 
-	def getSubmissions(self):
-		return self.submissions
+# 	def getSubmissions(self):
+# 		return self.submissions
 
-	def getSubmissionTimes(self):
-		return self.timesOfSubmissions
+# 	def getSubmissionTimes(self):
+# 		return self.timesOfSubmissions
 
 	def setWordsNorm(self,wordsNorm):
 		self.wordsNorm = wordsNorm

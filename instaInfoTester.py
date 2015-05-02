@@ -12,4 +12,4 @@ print instaInfo.countTimes(singleuser)
 print instaInfo.countNormTimes(singleuser)
 
 #get info on all the users
-instaInfo.printAllUserCounts(matches)
+#instaInfo.printAllUserCounts(matches)

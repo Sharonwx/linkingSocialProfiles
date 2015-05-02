@@ -1,9 +1,13 @@
+#Author: Tiffany Ang
+#Class: CS349 (Wellesley College) - Data Privacy
+#functionality: gets an Instagram User account and collects it's word and time counts using the Instagram API
+
 from instagram.client import InstagramAPI
 import createHistograms
 
 api = InstagramAPI(client_id='56511a3cf82d4525befd4e7c669a7ab2', client_secret='50e62e2b2a674b0a920af8bed61ab756')
 
-#returns a matching Instagram user from a Reddit username
+#returns a matching Instagram user from a username
 def getMatch(user):
   try:
     return api.user_search(user)[0]
@@ -11,7 +15,7 @@ def getMatch(user):
     username_error = user + " was no found"
 
 
-# return a list of matching Instagram users from a list of Reddit usernames 
+# return a list of matching Instagram users from a list of usernames 
 def getMatches(userlist):
   instalist = []
   
@@ -30,6 +34,19 @@ def getMatchesFromFile(txtfile):
   loadedlist = map(lambda s: s.strip(), loadedlist) #remove newline char
   myfile.close()
   
+  return getMatches(loadedlist)
+
+# get matching users from a csv of Reddit usernames
+def getMatchesFromCSV(filename):
+  #parse the csv file for usernames
+  loadedlist = []
+  f = open(filename)
+  reader = csv.reader(f)
+  for name in reader:
+    for thing in name:
+    #user = "".join(name)
+      loadedlist.append(thing)
+
   return getMatches(loadedlist)
 
 

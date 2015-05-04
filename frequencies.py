@@ -65,7 +65,7 @@ def timeFrequencies(cTimes,sTimes):
 	return times
 
 
-
+# this will be useful for clustering if possible
 def getTopics(subsComms,subsSubs):
 
 	topics = []

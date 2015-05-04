@@ -60,6 +60,10 @@ def normalizeTimeFreqs(hours,months,years):
 	return time
 
 
+
+
+
+#THIS METHOD IS FOR REDDIT USERS ONLY
 def createHistsAndNorms(userList):
 
 	for user in userList:
@@ -76,6 +80,8 @@ def createHistsAndNorms(userList):
 		freqs = frequencies.wordFrequencies(coms,subs)
 		timeFreqs = frequencies.timeFrequencies(ct,st)
 
+		user.setWords(freqs)
+
 		wordsNorm = createHistograms.normalizeWordFreqs(freqs)
 		#print wordsNorm
 		user.setWordsNorm(wordsNorm)
@@ -91,6 +97,3 @@ def createHistsAndNorms(userList):
 		user.setHoursNorm(months)
 		years = timesNorm.get('years')
 		user.setHoursNorm(years)
-
-
-

@@ -15,10 +15,12 @@ class Redditor (object):
 		self.timesOfComments = timesOfComments
 		self.commentedSubs = commentedSubs
 		self.commentedSubsKarma = commentedSubsKarma
+		self.words = {}
 		self.wordsNorm = {}
 		self.hoursNorm = {}
 		self.monthsNorm = {}
 		self.yearsNorm = {}
+
 
 	def getRedditor(self):
 		return self.redditor
@@ -55,6 +57,12 @@ class Redditor (object):
 
 	def getCommentedSubsKarma(self):
 		return self.commentedSubsKarma
+
+	def setWords(self,words):
+		self.words = words
+
+	def getWords(self):
+		return self.words
 
 	def setWordsNorm(self,wordsNorm):
 		self.wordsNorm = wordsNorm

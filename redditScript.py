@@ -15,14 +15,7 @@ userList = getUsernames.getLists()
 
 createHistograms.createHistsAndNorms(userList)
 
-one = userList[0]
-#print one
-#print one.getUsername()
-wordsOne = one.getWordsNorm()
-#print 'words one is',wordsOne
-two = userList[1]
-wordsTwo = two.getWordsNorm()
+compare.compareAllWordFreqs(userList)
 
-compare.compareWordFreqs(wordsOne,wordsTwo)
 
 

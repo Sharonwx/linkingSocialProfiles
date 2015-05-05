@@ -1,3 +1,10 @@
+# Author: Tiffany Ang 
+# Class: CS349 (Wellesley College) - Data Privacy
+# functionality: defines InstagramUser objects and InstagramUsers objects
+# - InstagramUser contains submissions, timesOfSubmissions, and normalized dictionaries for word counts
+#   and posting time counts in addition to normal profile info (username, id, Instagram user profile)
+# - InstagramUsers stores a list of InstagramUser objects inside it 
+
 import datetime
 
 class InstagramUser (object):

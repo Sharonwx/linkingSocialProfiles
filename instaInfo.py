@@ -11,7 +11,8 @@ api = InstagramAPI(client_id='56511a3cf82d4525befd4e7c669a7ab2', client_secret='
 
 instagramUsers = InstagramUser.InstagramUsers()
 
-
+# returns an InstagramUsers object, that contains a list of InstagramUser objects
+# that match the list of Reddit usernames and have normalized word count and posting time dicts
 def doEverything():
 # 	matches = getMatchesFromCSV('usernames.csv')
   matches = getMatchesFromFile('usernames.txt')

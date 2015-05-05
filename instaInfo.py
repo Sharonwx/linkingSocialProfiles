@@ -13,30 +13,33 @@ instagramUsers = InstagramUser.InstagramUsers()
 
 
 def doEverything():
-	matches = getMatchesFromCSV('usernames.csv')
-	for user in matches:
+# 	matches = getMatchesFromCSV('usernames.csv')
+  matches = getMatchesFromFile('usernames.txt')
+  for user in matches:
 	  instagramUser = InstagramUser.InstagramUser(user)
 	  instagramUsers.increaseInstagramUserCount()
 	  instagramUsers.addInstagramUser(instagramUser)
-	for user in instagramUsers.getList():
-	 # user.setWordsNorm(countNormWords(user))
-	 # user.setHoursNorm(countNormTimes(user)[hours])
-	 # user.setMonthsNorm(countNormTimes(user)[months])
-	 # user.setYearsNorm(countNormTimes(user)[years])
-	 setAllNorms(user)
-	return instagramUsers
+  for user in instagramUsers.getList():
+    setAllNorms(user)
+  return instagramUsers
 
 #returns a matching Instagram user from a username
 def getMatch(user):
+  print api.user_search(user)[0]
   return api.user_search(user)[0]
   
   
-#sets all normalized dictionaries for a user
+#sets all normalized dictionaries for a instagramUser
 def setAllNorms(user):
-  user.setWordsNorm(countNormWords(user))
-  user.setHoursNorm(countNormTimes(user)[hours])
-  user.setMonthsNorm(countNormTimes(user)[months])
-  user.setYearsNorm(countNormTimes(user)[years])
+  # print 'setting norms'
+  try:
+    user.setWordsNorm(countNormWords(user))
+    times = countNormTimes(user)
+    user.setHoursNorm(times['hours'])
+    user.setMonthsNorm(times['months'])
+    user.setYearsNorm(times['years'])
+  except:
+    print 'This user has no available posts.'
 
 
 #returns a single user from a username
@@ -88,7 +91,7 @@ def getMatchesFromCSV(filename):
 # return a dictionary of word counts for a specific user
 def countWords(user):
   try:
-    recentmedia = api.user_recent_media(user_id=user.id,count=20)
+    recentmedia = api.user_recent_media(user_id=user.getID(),count=20)
     
     allcaptions = []
     wordDict = {}
@@ -97,6 +100,7 @@ def countWords(user):
     for media in recentmedia[0]:
       try:
         allcaptions.append(media.caption.text.translate(None, '.,@#!$').lower().split())
+        # print 'appending'
       except:
         media_error = "media not found"
       
@@ -109,9 +113,11 @@ def countWords(user):
           # first occurence of this word
           wordDict[word] = 1
     
+    user.setSubmissions(allcaptions)
+    # print wordDict
     return wordDict
   except:
-    print "This user is private."
+    print "countwords: This user is private."
     
 # return a normalized dictionary of word counts for a specific user
 def countNormWords(user):
@@ -119,19 +125,23 @@ def countNormWords(user):
     wordDict = countWords(user)
     return createHistograms.normalizeWordFreqs(wordDict) 
   except:
-    print "This user has no available posts."
+    print "countnormwords: This user has no available posts."
 
 
 # return a normalized dictionary of posting counts (by hour, month, year) for a specific user
 def countTimes(user):
   try:
-    recentmedia = api.user_recent_media(user_id=user.id,count=20)
+    recentmedia = api.user_recent_media(user_id=user.getID(),count=20)
     hourDict = {}
     monthDict = {}
     yearDict = {}
+    allTimes = []
     
     for media in recentmedia[0]:
       item = media.created_time
+      # print item
+      
+      allTimes.append(item)
 
       try: 
         hourDict[item.hour] = timeDict[item.hour] + 1
@@ -148,20 +158,23 @@ def countTimes(user):
       except:
         yearDict[item.year] = 1 #first occurence of this year
 
-    time = {'hours':hours,'months':months,'years':years}
+    user.setSubmissionTimes(allTimes)
+    
+    time = {'hours':hourDict,'months':monthDict,'years':yearDict}
+    # print time
     return time
     
   except:
-    print "This user is private."
+    print "counttimes: This user is private."
     
     
 def countNormTimes(user):
   try:
     timeDict = countTimes(user)
-    return createHistograms.normalizeTimeFreqs(timeDict[hours], timeDict[months], timeDict[years])
+    return createHistograms.normalizeTimeFreqs(timeDict['hours'], timeDict['months'], timeDict['years'])
 
   except:
-    print "This user has no available posts."
+    print "countnormtimes: This user has no available posts."
     
 
 #print word counts and posting time counts for a list of Instagram users

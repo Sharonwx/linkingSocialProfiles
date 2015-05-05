@@ -4,9 +4,10 @@ class InstagramUser (object):
 
 	def __init__(self,instagramUser):
 		self.instagramUser = instagramUser
-		self.username = username
-		self.submissions = submissions
-		self.timesOfSubmissions = timesOfSubmissions
+		self.username = instagramUser.username
+		self.id = instagramUser.id
+		self.submissions = []
+		self.timesOfSubmissions = []
 		self.wordsNorm = {}
 		self.hoursNorm = {}
 		self.monthsNorm = {}
@@ -17,16 +18,25 @@ class InstagramUser (object):
 
 	def getUsername(self):
 		return self.username
+		
+	def getID(self):
+	  return self.id
 
 	def getTimeString(self):
 		return datetime.datetime.fromtimestamp(float(self.timeCreated)).strftime("%Y-%m-%d %H:%M")
 
-# 	def getSubmissions(self):
-# 		return self.submissions
+	def setSubmissions(self, submissions):
+		 self.submissions = submissions
 
-# 	def getSubmissionTimes(self):
-# 		return self.timesOfSubmissions
+	def getSubmissions(self):
+		return self.submissions
 
+	def setSubmissionTimes(self,timesOfSubmissions):
+		self.timesOfSubmissions = timesOfSubmissions
+		
+	def getSubmissionTimes(self):
+	  return self.timesOfSubmissions
+	
 	def setWordsNorm(self,wordsNorm):
 		self.wordsNorm = wordsNorm
 

@@ -17,9 +17,11 @@ createHistograms.createHistsAndNorms(userList)
 instaUserList = instaInfo.doEverything()
 print 'user list is',instaUserList
 
-for user in instaUserList:
-	print instaUserList.getInstagramUser(user)
+for user in instaUserList.getList():
+  print user.getUsername()
+  print user.getWordsNorm()
 
+# TODO: write code...
 
 #compare.compareAllWordFreqs(userList,instaUserList)
 

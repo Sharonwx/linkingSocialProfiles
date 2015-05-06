@@ -18,7 +18,7 @@ users = []
 def collectUsernames():
 	i = 0
 	f = open('usernames.csv','a')
-	content = r.get_front_page(limit=10)
+	content = r.get_front_page(limit=300)
 	for c in content:
 		f.write(c.author.name)
 		f.write('\n')

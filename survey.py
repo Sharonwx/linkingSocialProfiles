@@ -1,3 +1,4 @@
+
 class Respondent (object):
 	def __init__(self,wid,age,education,gender,length,otherSites,sameUsername,accounts,why):
 		self.wid = wid
@@ -60,6 +61,45 @@ class Respondents (object):
 	def getListItems(self):
 		for item in self.list:
 			print item.getWid
+
+	def females(self):
+		females = []
+		for respondent in self.list:
+			if respondent.getGender() == 'Female':
+				females.append(respondent)
+		return females
+
+	def males(self):
+		males = []
+		for respondent in self.list:
+			if respondent.getGender() == 'Male':
+				males.append(respondent)
+		return males
+
+	#returns ages in range given lower and upper
+	def age(self,lower,upper):
+		age = []
+		ageList = range(lower,upper)
+		for respondent in self.list:
+			if int(respondent.getAge()) in ageList:
+				age.append(respondent)
+		return age
+
+	#returns group given education level
+	def education(self,level):
+		education = []
+		for respondent in self.list:
+			if respondent.getEducation() == level:
+				education.append(respondent)
+		return education
+
+	#returns group given num accounts
+	def account(self,num):
+		accounts = []
+		for respondent in self.list:
+			if respondent.getAccounts() == num:
+				accounts.append(respondent)
+		return accounts
 
 	def getRespondent(self,wid):
 		for respondent in self.list:

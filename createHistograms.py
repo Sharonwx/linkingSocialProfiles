@@ -60,6 +60,9 @@ def normalizeTimeFreqs(hours,months,years):
 	return time
 
 
+#THIS METHOD IS FOR INSTA USERS ONLY
+
+
 
 
 

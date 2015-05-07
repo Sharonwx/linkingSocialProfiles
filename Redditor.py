@@ -79,7 +79,7 @@ class Redditor (object):
 	def setMonthsNorm(self,monthsNorm):
 		self.monthsNorm = monthsNorm
 
-	def getMonthssNorm(self):
+	def getMonthsNorm(self):
 		return self.monthsNorm
 
 	def setYearsNorm(self,yearsNorm):

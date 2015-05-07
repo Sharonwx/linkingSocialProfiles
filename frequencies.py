@@ -53,13 +53,13 @@ def timeFrequencies(cTimes,sTimes):
 
 	for tm in cTimes:
 		years[tm.year] = (years.get(tm.year,0)+1)
-		months[tm.strftime("%B")] = (months.get(tm.strftime("%B"),0)+1)
-		hours[tm.strftime("%H")] = (hours.get(tm.strftime("%H"),0)+1)
+		months[tm.month] = (months.get(tm.month,0)+1)
+		hours[tm.hour] = (hours.get(tm.hour,0)+1)
 
 	for tm in sTimes:
 		years[tm.year] = (years.get(tm.year,0)+1)
-		months[tm.strftime("%B")] = (months.get(tm.strftime("%B"),0)+1)
-		hours[tm.strftime("%H")] = (hours.get(tm.strftime("%H"),0)+1)
+		months[tm.month] = (months.get(tm.month,0)+1)
+		hours[tm.hour] = (hours.get(tm.hour,0)+1)
 
 	times = {'hours':hours,'months':months,'years':years}
 	return times

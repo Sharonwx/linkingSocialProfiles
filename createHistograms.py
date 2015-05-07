@@ -35,33 +35,30 @@ def normalizeWordFreqs(frequencies):
 #creates a normalized dictionary for hours, months, years
 def normalizeTimeFreqs(hours,months,years):
 
+	#the years and months are straight up to here
 	totalHours = 0
 	for item in hours:
 		totalHours = totalHours + hours.get(item)
 	for item in hours:
 		hours[item] = float(hours.get(item))/totalHours
-	#print hours
+	#print 'hours is ',hours
 
 	totalMonths = 0
 	for item in months:
 		totalMonths = totalMonths + months.get(item)
 	for item in months:
 		months[item] = float(months.get(item))/totalMonths
-	#print months
+	#print 'months is ',months
 
 	totalYears = 0
 	for item in years:
 		totalYears = totalYears + years.get(item)
 	for item in years:
 		years[item] = float(years.get(item))/totalYears
-	#print years
+	#print 'years is ',years
 
 	time={'hours':hours,'months':months,'years':years}
 	return time
-
-
-#THIS METHOD IS FOR INSTA USERS ONLY
-
 
 
 
@@ -91,12 +88,18 @@ def createHistsAndNorms(userList):
 		#print 'words norm is ',user.getWordsNorm()
 		timesNorm = createHistograms.normalizeTimeFreqs(timeFreqs.get('hours'),
 			timeFreqs.get('months'),timeFreqs.get('years'))
+		#print '\nhours from normalizeTimeFreqs: \nhours ',timeFreqs.get('hours'),'\n months: ',timeFreqs.get('months'),' \nyears: ',timeFreqs.get('years')
+		#all of the times are in the right spaces up to here
+
 
 		hours = timesNorm.get('hours')
 		#print 'hours is',hours
 		user.setHoursNorm(hours)
 		#print 'hours norm is',user.getHoursNorm()
 		months = timesNorm.get('months')
-		user.setHoursNorm(months)
+		#print 'months is ',months
+		user.setMonthsNorm(months)
+		#print 'months norm is ',user.getMonthsNorm()
 		years = timesNorm.get('years')
-		user.setHoursNorm(years)
+		user.setYearsNorm(years)
+		#print 'years norm is ',user.getYearsNorm()

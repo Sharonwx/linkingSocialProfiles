@@ -1,8 +1,20 @@
 import numpy
 from scipy.linalg import norm
+from sklearn import cluster
+from matplotlib import pyplot
 
 #stores username, cosine similarity for pairs that are compared
 redditInstaDictionary ={}
+
+redditInstaHoursDict = {}
+redditInstaMonthsDict = {}
+redditInstaYearsDict = {}
+
+summedCosines = {}
+
+#collection of cosines for users who have posts to compare
+cosines = []
+
 #list of instas who can't be compared because no words
 wordlessInstaList = []
 
@@ -23,16 +35,15 @@ def simple_cosine_sim(a, b):
         res = 0
     return res 
 
-def compareAllWordFreqs(userList1,userList2):
+#compares reddit users to instagram users
+def compareFreqs(userList1,userList2):
 	for user in userList1:
-	#need to write code that compares the users list in reddit
-	#to the users list in twitter
-	#to the users list in Insta
 		compare = userList2.getInstagramUser(user.getUsername())
 		if compare is not None:
+			print 'username being compared is ',compare.getUsername()
 			if compare.getWordsNorm() is not None:
 				#print 'compare.getWordsNorm is ',compare.getWordsNorm()
-				print 'username being compared is ',compare.getUsername()
+				print 'comparing words'
 				#print 'first dictionary ',user.getWordsNorm()
 				userKeys = (user.getWords()).keys()
 				#print 'second ',compare.getWordsNorm()
@@ -42,24 +53,117 @@ def compareAllWordFreqs(userList1,userList2):
 				cosSim = simple_cosine_sim(user.getWordsNorm(),compare.getWordsNorm())
 				print 'cosine similarity is ',cosSim
 				redditInstaDictionary[compare.getUsername()] = cosSim
+				cosines.append(cosSim)
 			else:
 				print compare.getUsername()," does not have any posts to compare"
+				redditInstaDictionary[compare.getUsername()] = 0
+
 				if compare.getUsername() not in wordlessInstaList:
 					wordlessInstaList.append(compare.getUsername())
+
+			#compare hours
+			if compare.getHoursNorm() is not None:
+				userKeys = (user.getHoursNorm()).keys()
+				compareKeys = (compare.getHoursNorm()).keys()
+				intersectionKeys = (userKeys and compareKeys)
+				print 'comparing hours'
+				#print 'user hours norm ',user.getHoursNorm()
+				#print 'compare hours norm ',compare.getHoursNorm()
+				cosSim = simple_cosine_sim(user.getHoursNorm(),compare.getHoursNorm())
+				print 'cosine similarity is ',cosSim
+				redditInstaHoursDict[user.getUsername()] = cosSim
+				cosines.append(cosSim)
+
+			else:
+				print compare.getUsername()," does not have hours to compare"
+				redditInstaHoursDict[user.getUsername()] = 0
+
+			#compare months
+			if compare.getHoursNorm() is not None:
+				userKeys = (user.getMonthsNorm()).keys()
+				compareKeys = (compare.getMonthsNorm()).keys()
+				intersectionKeys = (userKeys and compareKeys)
+				print 'comparing months'
+				cosSim = simple_cosine_sim(user.getMonthsNorm(),compare.getMonthsNorm())
+				print 'cosine similarity is ',cosSim
+				redditInstaMonthsDict[user.getUsername()] = cosSim
+				cosines.append(cosSim)
+
+			else:
+				print compare.getUsername()," does not have hours to compare"
+				redditInstaMonthsDict[user.getUsername()] = 0
+
+			#compare years
+			if compare.getHoursNorm() is not None:
+				userKeys = (user.getYearsNorm()).keys()
+				compareKeys = (compare.getYearsNorm()).keys()
+				intersectionKeys = (userKeys and compareKeys)
+				print 'comparing years'
+				cosSim = simple_cosine_sim(user.getYearsNorm(),compare.getYearsNorm())
+				print 'cosine similarity is ',cosSim
+				redditInstaYearsDict[user.getUsername()] = cosSim
+				cosines.append(cosSim)
+
+			else:
+				print compare.getUsername()," does not have hours to compare"
+				redditInstaYearsDict[user.getUsername()] = 0
+
 		else:
-			print 'no instagram exists for ',user.getUsername()
+			print 'freqs: no instagram exists for ',user.getUsername()
 
-'''
-def compareAllTimeFreqs(userList1,userList2):
-	#compare hours
+	return {'summedCosines':summedCosines,'cosines':cosines}
+
+
+
+
+def gatherCosines(userList1):
 	for user in userList1:
-		compare = userList2.getInstagramUser(user.getUsername())
-		if compare.get
-	#compare months
+		wordSim = redditInstaDictionary.get(user.getUsername())
+		#print 'wordSim is ',wordSim
+		hoursSim = redditInstaHoursDict.get(user.getUsername())
+		#print 'hoursSim is ',hoursSim
+		monthsSim = redditInstaMonthsDict.get(user.getUsername())
+		#print 'monthsSim is ',monthsSim
+		yearsSim = redditInstaYearsDict.get(user.getUsername())
+		#print 'yearsSim is ',yearsSim
 
+		notNone = (wordSim is not None)and(hoursSim is not None)and(monthsSim is not None)and(yearsSim is not None)
+		if notNone:
+			#this is where we have to decide how to weight it
+			#now it's:
+			#words: .5
+			#hours: .3
+			#months: .1
+			#years: .1
+			summedCosines[user.getUsername()] = (0.5*wordSim)+(0.3*hoursSim)+(0.1*monthsSim)+(0.1*yearsSim)
+		else:
+			summedCosines[user.getUsername()] = None
 
-	#compare years
-'''
+	for item in summedCosines:
+		print item," : ",summedCosines.get(item)
+		#print 'user is ',item,' cosine sim is: ',item.value()
+
+def meanCosines():
+	print 'mean is ',numpy.mean(cosines)
+
+def stdDevCosines():
+	print 'standard deviation is ',numpy.std(cosines)
+
+def clusterCosines():
+	k_means = cluster.KMeans(n_clusters=3,init='k-means++')
+	k_means.fit(cosines)
+
+	labels = kmeans.labels
+	centroids = kmeans.cluster_centers
+
+	for i in range(0,3):
+		ds = data[numpy.where(labels==i)]
+		pyplot.plot(ds[:0],ds[:1],'o')
+		lines = pyplot.plot(centroids[i,0],centroids[i,1],'kx')
+		pyplot.setp(lines,ms=15.0)
+		pyplot.setp(lines,mew=2.0)
+	pyplot.show()
+
 def getCosineSimilarities():
 	return redditInstaDictionary
 
@@ -71,58 +175,3 @@ def getWordlessInstaCount():
 
 
 
-def compareWordFreqs(firstDict,secondDict):
-
-	inFirstNotSecond = set(firstDict.keys()) - set(secondDict.keys())
-	#print 'in first not second',inFirstNotSecond
-	#print 'number in first not in second',len(inFirstNotSecond)
-	inSecondNotFirst = set(secondDict.keys()) - set(firstDict.keys())
-	#print 'in second not first',inSecondNotFirst
-	#print 'number in second not in first',len(inSecondNotFirst)
-	inBoth = set(firstDict.keys()) and set(secondDict.keys())
-	#print 'in both', inBoth
-	#print 'number in both',len(inBoth)
-
-'''
-def compareAllTimeFreqs(userList):
-	for user in userList:
-		for compare in userList:
-			if user != compare:
-				#compareHoursFreqs(user.getHoursNorm(),compare.getHoursNorm())
-
-				'''
-
-
-
-'''
-# rewriting code to normalize within union 
-userDictionary = user.getWords()
-userSet = set(userDictionary)
-compareDictionary = compare.getWords()
-compareSet = set(compareDictionary)
-unionSet = (userSet and compareSet)
-setSize = len(unionSet)
-
-nUserDictionary = {}
-for word in unionSet:
-	nUserDictionary[word] = float(userDictionary.get(word,0))/setSize
-print nUserDictionary
-print "\n\n\n\n"
-
-nCompareDictionary = {}
-for word in unionSet:
-	nCompareDictionary[word] = float(compareDictionary.get(word,0))/setSize
-print nCompareDictionary
-print "\n\n\n\n"
-
-#compare renormalized words
-print simple_cosine_sim(nUserDictionary,nCompareDictionary)
-print "\n\n\n\n"
-'''
-
-#checking that the function is working -- it is
-'''
-dictionaryA = {'neighboring':.10,'November':.20,'hourly':.10,'privacy':.15,'lights':.15,'smoke':.10,'talks':.20}
-dictionary = {'neighboring':.10,'November':.20,'hourly':.10,'privacy':.15,'human':.15,'popular':.20,'tech':.10}
-print simple_cosine_sim(dictionaryA,dictionary)
-'''

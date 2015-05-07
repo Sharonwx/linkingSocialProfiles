@@ -13,9 +13,9 @@ instagramUsers = InstagramUser.InstagramUsers()
 
 # returns an InstagramUsers object, that contains a list of InstagramUser objects
 # that match the list of Reddit usernames and have normalized word count and posting time dicts
-def doEverything():
+def doEverything(filename):
 # 	matches = getMatchesFromCSV('usernames.csv')
-  matches = getMatchesFromFile('usernames.txt')
+  matches = getMatchesFromFile(filename)
   for user in matches:
 	  instagramUser = InstagramUser.InstagramUser(user)
 	  instagramUsers.increaseInstagramUserCount()
@@ -26,7 +26,7 @@ def doEverything():
 
 #returns a matching Instagram user from a username
 def getMatch(user):
-  print api.user_search(user)[0]
+  #print api.user_search(user)[0]
   return api.user_search(user)[0]
   
   
@@ -118,7 +118,7 @@ def countWords(user):
     # print wordDict
     return wordDict
   except:
-    print "countwords: This user is private."
+    print "countwords: ",user.getUsername()," is private."
     
 # return a normalized dictionary of word counts for a specific user
 def countNormWords(user):
@@ -126,7 +126,7 @@ def countNormWords(user):
     wordDict = countWords(user)
     return createHistograms.normalizeWordFreqs(wordDict) 
   except:
-    print "countnormwords: This user has no available posts."
+    print "countnormwords: ",user.getUsername()," has no available posts."
 
 
 # return a normalized dictionary of posting counts (by hour, month, year) for a specific user
@@ -166,7 +166,7 @@ def countTimes(user):
     return time
     
   except:
-    print "counttimes: This user is private."
+    print "counttimes: ",user.getUsername()," is private."
     
     
 def countNormTimes(user):
@@ -175,8 +175,8 @@ def countNormTimes(user):
     return createHistograms.normalizeTimeFreqs(timeDict['hours'], timeDict['months'], timeDict['years'])
 
   except:
-    print "countnormtimes: This user has no available posts."
-    
+    #print "countnormtimes: This user has no available posts."
+    None
 
 #print word counts and posting time counts for a list of Instagram users
 def printAllUserCounts(userlist):

@@ -53,7 +53,6 @@ def compareFreqs(userList1,userList2):
 				cosSim = simple_cosine_sim(user.getWordsNorm(),compare.getWordsNorm())
 				print 'cosine similarity is ',cosSim
 				redditInstaDictionary[compare.getUsername()] = cosSim
-				cosines.append(cosSim)
 			else:
 				print compare.getUsername()," does not have any posts to compare"
 				redditInstaDictionary[compare.getUsername()] = 0
@@ -72,7 +71,6 @@ def compareFreqs(userList1,userList2):
 				cosSim = simple_cosine_sim(user.getHoursNorm(),compare.getHoursNorm())
 				print 'cosine similarity is ',cosSim
 				redditInstaHoursDict[user.getUsername()] = cosSim
-				cosines.append(cosSim)
 
 			else:
 				print compare.getUsername()," does not have hours to compare"
@@ -87,7 +85,6 @@ def compareFreqs(userList1,userList2):
 				cosSim = simple_cosine_sim(user.getMonthsNorm(),compare.getMonthsNorm())
 				print 'cosine similarity is ',cosSim
 				redditInstaMonthsDict[user.getUsername()] = cosSim
-				cosines.append(cosSim)
 
 			else:
 				print compare.getUsername()," does not have hours to compare"
@@ -102,7 +99,6 @@ def compareFreqs(userList1,userList2):
 				cosSim = simple_cosine_sim(user.getYearsNorm(),compare.getYearsNorm())
 				print 'cosine similarity is ',cosSim
 				redditInstaYearsDict[user.getUsername()] = cosSim
-				cosines.append(cosSim)
 
 			else:
 				print compare.getUsername()," does not have hours to compare"
@@ -111,37 +107,47 @@ def compareFreqs(userList1,userList2):
 		else:
 			print 'freqs: no instagram exists for ',user.getUsername()
 
-	return {'summedCosines':summedCosines,'cosines':cosines}
 
 
 
 
 def gatherCosines(userList1):
+	writeFile = open('summedCosines.txt','a')
 	for user in userList1:
 		wordSim = redditInstaDictionary.get(user.getUsername())
+		if wordSim is None:
+			wordSim = 0
 		#print 'wordSim is ',wordSim
 		hoursSim = redditInstaHoursDict.get(user.getUsername())
+		if hoursSim is None:
+			hoursSim = 0
 		#print 'hoursSim is ',hoursSim
 		monthsSim = redditInstaMonthsDict.get(user.getUsername())
+		if monthsSim is None:
+			monthsSim = 0
 		#print 'monthsSim is ',monthsSim
 		yearsSim = redditInstaYearsDict.get(user.getUsername())
+		if yearsSim is None:
+			yearsSim = 0
 		#print 'yearsSim is ',yearsSim
 
-		notNone = (wordSim is not None)and(hoursSim is not None)and(monthsSim is not None)and(yearsSim is not None)
-		if notNone:
-			#this is where we have to decide how to weight it
-			#now it's:
-			#words: .5
-			#hours: .3
-			#months: .1
-			#years: .1
-			summedCosines[user.getUsername()] = (0.5*wordSim)+(0.3*hoursSim)+(0.1*monthsSim)+(0.1*yearsSim)
-		else:
-			summedCosines[user.getUsername()] = None
+		#this is where we have to decide how to weight it
+		#now it's:
+		#words: .5
+		#hours: .3
+		#months: .1
+		#years: .1
+		summedCosines[user.getUsername()] = (0.5*wordSim)+(0.3*hoursSim)+(0.1*monthsSim)+(0.1*yearsSim)
 
 	for item in summedCosines:
-		print item," : ",summedCosines.get(item)
+		writeFile.write(str(item))
+		writeFile.write(':')
+		writeFile.write(str(summedCosines.get(item)))
+		cosines.append(summedCosines.get(item))
+		writeFile.write(',\n')
 		#print 'user is ',item,' cosine sim is: ',item.value()
+
+	return {'cosines':cosines,'summedCosines':summedCosines}
 
 def meanCosines():
 	print 'mean is ',numpy.mean(cosines)

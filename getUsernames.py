@@ -43,40 +43,43 @@ def doEverything():
 	tic = time.clock()
 	for item in users:
 		#print item
-		user = r.get_redditor(item)
-		timeCreated = datetime.datetime.fromtimestamp(float(user.created_utc))
+		try: 
+			user = r.get_redditor(item)
+			timeCreated = datetime.datetime.fromtimestamp(float(user.created_utc))
 
-		submissions = [] 
-		generator = user.get_submitted(time='all')
-		timesOfSubmissions = []
-		submittedSubs = []
-		submittedSubsKarma = {}
-		for thing in generator:
-			submissions.append(thing.selftext)
-			tm = datetime.datetime.fromtimestamp(float(thing.created_utc))
-			timesOfSubmissions.append(tm)
-			subreddit = thing.subreddit.display_name
-			if subreddit not in submittedSubs:
-				submittedSubs.append(subreddit)
-			submittedSubsKarma[subreddit] = (submittedSubsKarma.get(subreddit,0)+thing.score)
+			submissions = [] 
+			generator = user.get_submitted(time='all')
+			timesOfSubmissions = []
+			submittedSubs = []
+			submittedSubsKarma = {}
+			for thing in generator:
+				submissions.append(thing.selftext)
+				tm = datetime.datetime.fromtimestamp(float(thing.created_utc))
+				timesOfSubmissions.append(tm)
+				subreddit = thing.subreddit.display_name
+				if subreddit not in submittedSubs:
+					submittedSubs.append(subreddit)
+				submittedSubsKarma[subreddit] = (submittedSubsKarma.get(subreddit,0)+thing.score)
 
-		comments = []
-		generator = user.get_comments(limit=None)
-		timesOfComments = []
-		commentedSubs = []
-		commentedSubsKarma = {}
-		for comment in generator:
-			comments.append(comment.body)
-			tm = datetime.datetime.fromtimestamp(float(comment.created_utc))
-			timesOfComments.append(tm)
-			subreddit = comment.subreddit.display_name
-			if subreddit not in commentedSubs:
-				commentedSubs.append(subreddit)
-			commentedSubsKarma[subreddit] = (commentedSubsKarma.get(subreddit,0)+comment.score)
+			comments = []
+			generator = user.get_comments(limit=None)
+			timesOfComments = []
+			commentedSubs = []
+			commentedSubsKarma = {}
+			for comment in generator:
+				comments.append(comment.body)
+				tm = datetime.datetime.fromtimestamp(float(comment.created_utc))
+				timesOfComments.append(tm)
+				subreddit = comment.subreddit.display_name
+				if subreddit not in commentedSubs:
+					commentedSubs.append(subreddit)
+				commentedSubsKarma[subreddit] = (commentedSubsKarma.get(subreddit,0)+comment.score)
 
-		redditUser = Redditor.Redditor(user,item,timeCreated,submissions,timesOfSubmissions,submittedSubs,submittedSubsKarma,comments,timesOfComments,commentedSubs,commentedSubsKarma)
-		redditors.increaseRedditorCount()
-		redditors.addRedditor(redditUser)
+			redditUser = Redditor.Redditor(user,item,timeCreated,submissions,timesOfSubmissions,submittedSubs,submittedSubsKarma,comments,timesOfComments,commentedSubs,commentedSubsKarma)
+			redditors.increaseRedditorCount()
+			redditors.addRedditor(redditUser)
+		except:
+			print 'user ',user,' cannot be found'
 	toc = time.clock()
 	#print toc-tic
 	#print "total count is",redditors.getCount()

@@ -17,7 +17,7 @@ cosines = []
 
 #files = ['one.csv','two.csv','three.csv','four.csv','five.csv','six.csv','seven.csv','eight.csv','nine.csv','ten.csv','eleven.csv','twelve.csv']
 
-files = ['one.csv']
+files = ['one.csv','two.csv']
 for f in files:
 	getUsernames.getUsernamesFromList(f)
 	getUsernames.doEverything()
@@ -29,13 +29,15 @@ for f in files:
 	#print 'user list is',instaUserList
 
 	#returns: {'summedCosines':summedCosines,'cosines':cosines}
-	dic = compare.compareFreqs(userList,instaUserList)
-	sC = dic.get('summedCosines')
-	for entry in sC:
-		summedCosines[entry] = sC.get(entry)
-		cosines.append(sC.get(entry))
+	compare.compareFreqs(userList,instaUserList)
 
-	compare.gatherCosines(userList)
+	dictionary = compare.gatherCosines(userList)
+	cosinesTemp = dictionary.get('cosines')
+	for cos in cosinesTemp:
+		cosines.append(cos)
+	summedCosinesTemp = dictionary.get('summedCosines')
+	for item in summedCosinesTemp:
+		summedCosines[item] = summedCosinesTemp.get(item)
 	compare.meanCosines()
 	compare.stdDevCosines()
 

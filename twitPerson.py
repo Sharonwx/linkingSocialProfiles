@@ -3,21 +3,25 @@ import datetime
 #TwitPerson object has many characteristics pertaining to a Twitter User
 #sidenote: I may have found some humor in naming the class a twitperson :x
 class TwitPerson (object): 
-	def __init__(self, twitPerson, screename, userid, realname, timeCreated, tweetTimes, tweetTexts, location):
+	def __init__(self, twitPerson, screenname, userid, realname, timeCreated, location, description):
 		self.twitPerson = twitPerson #this would be the returned JSON obj version of a User I believe?
 		#I included the above after checking to make sure I covered bases for everything needed and am
 		#a bit confused over includion 
-		self.screename = screename
+		self.screenname = screenname
 		self.userid = userid
 		self.realname = realname
 		self.timeCreated = timeCreated
 		self.location = location
-		
+		self.description = description
+
+
 		self.hashtags = {} #keeping for now but not necessarily implemented yet since not necessary...
 		
-		#considering changing to empty dictionaries so that we don't need as a parameter when creating TwitPerson obj
-		self.tweetTimes = tweetTimes
-		self.tweetTexts = tweetTexts
+		#changing to empty dictionaries so that we don't need as a parameter when creating TwitPerson obj
+		#self.tweetTimes = tweetTimes
+		self.tweetTimes = {}
+		#self.tweetTexts = tweetTexts
+		self.tweetTexts = {}
 
 		#
 		self.normYears = {}
@@ -30,7 +34,7 @@ class TwitPerson (object):
 		return self.twitperson
 
 	def getScreenName(self):
-		return self.screename
+		return self.screenname
 
 	def getUserId(self):
 		return self.userid
@@ -44,11 +48,14 @@ class TwitPerson (object):
 	def getLocation(self):
 		return self.location
 
+	def getDescription(self):
+		return self.description
+
 	def getHashtags(self):
 		return self.hashtags
 
-	def getTweetTexts(self):
-		return self.tweetTexts
+	def getTweetTimes(self):
+		return self.tweetTimes
 
 	def getTweetTexts(self):
 		return self.tweetTexts
@@ -66,6 +73,12 @@ class TwitPerson (object):
 		return self.normWords
 
 	#-------------------Setter methods for characteristics
+	def setTweetTexts(self, tweetTexts):
+		self.tweetTexts = tweetTexts
+
+	def setTweetTimes(self, tweetTimes):
+		self.tweetTimes = tweetTimes
+
 	def setNormYears(self, normYears):
 		self.normYears = normYears
 
@@ -77,8 +90,6 @@ class TwitPerson (object):
 
 	def setNormWords(self, normWords):
 		self.normWords = normWords
-#---------------------------------(END OF TwitPerson)------------------------------------------
-
 
 #TwitPpl object has list and count characteristic; basically a list of TwitPersons and the number of them
 class TwitPpl(object):
@@ -96,7 +107,7 @@ class TwitPpl(object):
 
 	#-----------------------Methods to use for TwitPpl
 	def addTwitPerson(self, twitPerson): 
-		self.list.append(twitperson)
+		self.list.append(twitPerson)
 
 	def addTwitCount(self): #ahaha I swear I'm not doing it on purpose... maybe
 		self.count = self.count+1

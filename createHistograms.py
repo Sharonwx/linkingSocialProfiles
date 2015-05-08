@@ -34,7 +34,37 @@ def normalizeWordFreqs(frequencies):
 #takes in dictionary for hours, months, years breakdown of posts
 #creates a normalized dictionary for hours, months, years
 def normalizeTimeFreqs(hours,months,years):
+	
+	#the term 'new' refers to being NORMALIZED
+	newHours = {}
+	newMonths = {}
+	newYears = {}
 
+	totalHours = 0
+	for item in hours:
+		totalHours = totalHours + hours.get(item)
+	for item in hours:
+		newHours[item] = float(hours.get(item))/totalHours
+	#print hours
+
+	totalMonths = 0
+	for item in months:
+		totalMonths = totalMonths + months.get(item)
+	for item in months:
+		newMonths[item] = float(months.get(item))/totalMonths
+	#print months
+
+	totalYears = 0
+	for item in years:
+		totalYears = totalYears + years.get(item)
+	for item in years:
+		newYears[item] = float(years.get(item))/totalYears
+	#print years
+
+	time={'hours':newHours,'months':newMonths,'years':newYears}
+	return time
+	
+	''' -----Previous Code-----
 	#the years and months are straight up to here
 	totalHours = 0
 	for item in hours:
@@ -59,7 +89,7 @@ def normalizeTimeFreqs(hours,months,years):
 
 	time={'hours':hours,'months':months,'years':years}
 	return time
-
+	'''
 
 
 

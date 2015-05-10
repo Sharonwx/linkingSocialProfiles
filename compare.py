@@ -117,7 +117,7 @@ def compareFreqs(userList1,userList2):
 				redditTwitterYearsDict[user.getUsername()] = 0
 
 		else:
-			print 'freqs: no twitter exists for ',user.getUsername()
+			print 'freqs: no insta exists for ',user.getUsername()
 
 
 def compareTwitterFreqs(userList1,userList2):

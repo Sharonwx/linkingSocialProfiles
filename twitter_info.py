@@ -18,10 +18,10 @@ import unicodedata
 from datetime import datetime
 
 #setting up authorization to query twitter
-CONSUMER_KEY = '2zq826fLWyzsFQFktAl5doane'
-CONSUMER_SECRET = 'MajOSCtp2qqt50TCbZ1V996N4px2Xsx0Dcq6tLt2Gg5ncWCDXG'
-OAUTH_TOKEN = '1635784340-4TG6WfuuSKd8dgoHIoRIQljBXugH8282FNBlu2G'
-OAUTH_TOKEN_SECRET = 'EmsnQNv1SPN6Yw4BpNGj9Pf3yT68B5s9BRqkpfQdMOaKi'
+CONSUMER_KEY = 'sQ6lPdXZBfoWc1cuUudrE5LCC'
+CONSUMER_SECRET = 'lOfAiM7nNNdFud0bYskmKVpHWEZP11xZ1HyFmKZkDXT1JQtpKU'
+OAUTH_TOKEN = '1635784340-1F3etXLkk1RmtKAN5SKneMJaZu3G0TkuUE8TDRe'
+OAUTH_TOKEN_SECRET = 'jgsDsEShOewtscSifwVsP26yiw8b1VsnJaGh57xLAyuuy'
 
 auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
 twitter_api = twitter.Twitter(auth=auth)
@@ -336,9 +336,8 @@ def wordFreq(results):
 
 	#user.setTweetTexts(wordDict) #not used here but should be called later
 	return wordDict
-'''
 
-	''' ****COMMENTS originally from doAllTheThings, removed bc no longer applies but
+	****COMMENTS originally from doAllTheThings, removed bc no longer applies but
 	*********kept for reference [:
 	#2) for every username that matched, create a TwitPerson and add to the overarching
 	#global var twitList... so take the Twitter JSON User objects in twitObjList

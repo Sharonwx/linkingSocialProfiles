@@ -1,8 +1,6 @@
 
 f = open('usernames.csv')
 
-
-#try with first 300
 content = f.readlines()
 for lines in content[0:24]:
 	f2 = open('1.csv','a')
@@ -83,3 +81,84 @@ for lines in content[450:474]:
 for lines in content[475:499]:
 	f3 = open('20.csv','a')
 	f3.write(lines)
+
+for lines in content[500:524]:
+	f2 = open('21.csv','a')
+	f2.write(lines)
+
+for lines in content[525:549]:
+	f3 = open('22.csv','a')
+	f3.write(lines)
+
+for lines in content[550:574]:
+	f3 = open('23.csv','a')
+	f3.write(lines)
+
+for lines in content[575:599]:
+	f3 = open('24.csv','a')
+	f3.write(lines)
+
+for lines in content[600:624]:
+	f3 = open('25.csv','a')
+	f3.write(lines)
+
+for lines in content[625:649]:
+	f3 = open('26.csv','a')
+	f3.write(lines)
+
+for lines in content[650:674]:
+	f3 = open('27.csv','a')
+	f3.write(lines)
+
+for lines in content[675:699]:
+	f3 = open('28.csv','a')
+	f3.write(lines)
+
+for lines in content[700:724]:
+	f3 = open('29.csv','a')
+	f3.write(lines)
+
+for lines in content[725:749]:
+	f3 = open('30.csv','a')
+	f3.write(lines)
+
+for lines in content[750:774]:
+	f3 = open('31.csv','a')
+	f3.write(lines)
+
+for lines in content[775:799]:
+	f3 = open('32.csv','a')
+	f3.write(lines)
+
+for lines in content[800:824]:
+	f3 = open('33.csv','a')
+	f3.write(lines)
+
+for lines in content[825:849]:
+	f3 = open('34.csv','a')
+	f3.write(lines)
+
+for lines in content[850:874]:
+	f3 = open('35.csv','a')
+	f3.write(lines)
+
+for lines in content[875:899]:
+	f3 = open('36.csv','a')
+	f3.write(lines)
+
+for lines in content[900:924]:
+	f3 = open('37.csv','a')
+	f3.write(lines)
+
+for lines in content[925:949]:
+	f3 = open('38.csv','a')
+	f3.write(lines)
+
+for lines in content[950:974]:
+	f3 = open('39.csv','a')
+	f3.write(lines)
+
+for lines in content[975:999]:
+	f3 = open('40.csv','a')
+	f3.write(lines)
+

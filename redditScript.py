@@ -7,42 +7,69 @@ import instaInfo
 import time
 import numpy
 
-tic = time.clock()
-#reddit
+import twitter_info
 
-summedCosines = {}
 
-#collection of cosines for users who have posts to compare
-cosines = []
+instaSummedCosines = {}
+instaCosines = []
 
 #files = ['one.csv','two.csv','three.csv','four.csv','five.csv','six.csv','seven.csv','eight.csv','nine.csv','ten.csv','eleven.csv','twelve.csv']
 
-files = ['one.csv','two.csv']
-for f in files:
-	getUsernames.getUsernamesFromList(f)
-	getUsernames.doEverything()
-	userList = getUsernames.getLists()
-	createHistograms.createHistsAndNorms(userList)
+#files = ['1.csv','2.csv','3.csv','4.csv','5.csv','6.csv','7.csv','8.csv','9.csv','10.csv']
 
-	#instagram, already normalizes
-	instaUserList = instaInfo.doEverything('one.csv')
-	#print 'user list is',instaUserList
+files = ['40.csv']
+def compareInstagram():
+	tic = time.clock()
+	for f in files:
+		print 'currently in file ',f
+		print 'time so far: ',(time.clock()-tic) 
+		getUsernames.getUsernamesFromList(f)
+		getUsernames.doEverything()
+		userList = getUsernames.getLists()
+		createHistograms.createHistsAndNorms(userList)
 
-	#returns: {'summedCosines':summedCosines,'cosines':cosines}
-	compare.compareFreqs(userList,instaUserList)
+		#instagram, already normalizes
+		instaUserList = instaInfo.doEverything(f)
+		#print 'user list is',instaUserList
 
-	dictionary = compare.gatherCosines(userList)
-	cosinesTemp = dictionary.get('cosines')
-	for cos in cosinesTemp:
-		cosines.append(cos)
-	summedCosinesTemp = dictionary.get('summedCosines')
-	for item in summedCosinesTemp:
-		summedCosines[item] = summedCosinesTemp.get(item)
-	compare.meanCosines()
-	compare.stdDevCosines()
+		#returns: {'instaSummedCosines':instaSummedCosines,'cosines':cosines}
+		compare.compareFreqs(userList,instaUserList)
 
-#try later?
-#compare.clusterCosines()
+		dictionary = compare.gatherinstaCosines(userList)
+		cosinesTemp = dictionary.get('instaCosines')
+		for cos in cosinesTemp:
+			instaCosines.append(cos)
+		instaSummedCosinesTemp = dictionary.get('instaSummedCosines')
+		for item in instaSummedCosinesTemp:
+			instaSummedCosines[item] = instaSummedCosinesTemp.get(item)
+		compare.meanInstaCosines()
+		compare.stdDevInstaCosines()
+	toc = time.clock()
+	print 'time is ',toc-tic
 
-toc = time.clock()
-print 'time is ',toc-tic
+def compareTwitter():
+	tic = time.clock()
+	for f in files:
+		print 'currently in file ',f
+		print 'time so far: ',(time.clock()-tic)
+		getUsernames.getUsernamesFromList(f)
+		getUsernames.doEverything()
+		userList = getUsernames.getLists()
+		print userList
+		createHistograms.createHistsAndNorms(userList)
+
+		twitterUserList = twitter_info.doAllTheThings(f)
+
+
+		compare.compareTwitterFreqs(userList,twitterUserList)
+		dictionary = compare.gatherTwitterCosines(userList)
+		print dictionary.get('twitterCosines')
+		print dictionary.get('twitterSummedCosines')
+
+
+
+
+
+
+
+

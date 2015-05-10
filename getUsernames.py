@@ -18,7 +18,7 @@ users = []
 def collectUsernames():
 	i = 0
 	f = open('usernames.csv','a')
-	content = r.get_front_page(limit=300)
+	content = r.get_front_page(limit=1000)
 	for c in content:
 		f.write(c.author.name)
 		f.write('\n')
@@ -79,7 +79,7 @@ def doEverything():
 			redditors.increaseRedditorCount()
 			redditors.addRedditor(redditUser)
 		except:
-			print 'user ',user,' cannot be found'
+			print 'user ',item,' cannot be found'
 	toc = time.clock()
 	#print toc-tic
 	#print "total count is",redditors.getCount()
